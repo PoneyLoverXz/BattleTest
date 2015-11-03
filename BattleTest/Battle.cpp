@@ -1,5 +1,6 @@
 #include "Battle.h"
 #include <iostream>
+#include <vector>
 using namespace std;
 /***************/
 /*Constructeurs*/
@@ -428,12 +429,12 @@ float Battle::IsEffective(Move* move, Pokemon* pkmn)
 		}
 	}
 
-	if (Effectiveness > 1)
+	/*if (Effectiveness > 1)
 		cout << "IT'S SUPER EFFECTIVE!" << endl;
 	else if (Effectiveness < 1)
 		cout << "It's not very effective." << endl;
-	else
-		cout << "It failed." << endl;
+   else if (Effectiveness == 0)
+		cout << "It failed." << endl;*/
 
 	return Effectiveness;
 }
@@ -539,7 +540,14 @@ void Battle::AITurn()
 
 bool Battle::AIMove(Pokemon *ai, Pokemon *pkmn)
 {
-	return AIDamagingMove();
+   if (isPokemonEffective(AIPlaying, PokemonPlaying) < 1 && HasStatMove(AIPlaying))
+   {      
+      return AIStatMove();
+   }
+   else
+   {	   
+      return AIDamagingMove();
+   }
 }
 
 double Battle::HasHealingMove(Pokemon * ai)
@@ -601,10 +609,7 @@ bool Battle::AIHeal(Pokemon * ai)
 		ai->setCurrentHP(ceil(ai->getCurrentHP() * ai->getMove4()->getHealing()));
 		return true;
 	}
-	else
-	{
-		return false;
-	}
+	return false;
 }
 
 double Battle::isPokemonEffective(Pokemon * attacker, Pokemon * defender)
@@ -717,6 +722,91 @@ bool Battle::AIDamagingMove()
 	}
 	else
 	{
+      /*********************JE DOIS UTILISER UNE ATTAQUE AU HASARD******************/
 		return false;
 	}
+}
+
+bool Battle::isStatMove(Move * move)
+{
+   if (move)
+   {
+      if (move->getAttack() > 1 || move->getDefense() > 1 || move->getSpeed() > 1)
+      {
+         return true;
+      }
+   }
+   return false;
+}
+
+bool Battle::HasStatMove(Pokemon * pkmn)
+{
+   if (isStatMove(pkmn->getMove1()))
+   {
+      return true;
+   }
+   if (isStatMove(pkmn->getMove2()))
+   {
+      return true;
+   }
+   if (isStatMove(pkmn->getMove3()))
+   {
+      return true;
+   }
+   if (isStatMove(pkmn->getMove4()))
+   {
+      return true;
+   }
+   return false;
+}
+
+bool Battle::AIStatMove()
+{   
+   bool MoveUsed = false,
+      Move1 = false,
+      Move2 = false,
+      Move3 = false,
+      Move4 = false;
+
+   Move1 = isStatMove(AIPlaying->getMove1());
+   Move2 = isStatMove(AIPlaying->getMove2());
+   Move3 = isStatMove(AIPlaying->getMove3());
+   Move4 = isStatMove(AIPlaying->getMove4());
+
+   vector<int> moves;
+   if (Move1)
+   {
+      moves.push_back(1);
+   }
+   if (Move2)
+   {
+      moves.push_back(2);
+   }
+   if (Move3)
+   {
+      moves.push_back(3);
+   }
+   if (Move4)
+   {
+      moves.push_back(4);
+   }
+
+   int random = rand() % moves.size();
+
+   switch (moves.at(random))
+   {
+   case 1:
+      useMove(AIPlaying->getMove1(), AIPlaying, PokemonPlaying);
+      return true;
+   case 2:
+      useMove(AIPlaying->getMove2(), AIPlaying, PokemonPlaying);
+      return true;
+   case 3:
+      useMove(AIPlaying->getMove3(), AIPlaying, PokemonPlaying);
+      return true;
+   case 4:
+      useMove(AIPlaying->getMove4(), AIPlaying, PokemonPlaying);
+      return true;
+   }
+   return false;
 }

@@ -126,10 +126,10 @@ void Pokemon::setBaseSpeed(double baseSpeed)
 
 void Pokemon::SetStatsForLevel()
 {
-	setHP(ceil(2 * getBaseHP() + 31) * getLevel() / 100 + getLevel() + 10);
-	setAtt(ceil(2 * getBaseAtt() + 31) * getLevel() / 100 + 5);
-	setDef(ceil(2 * getBaseDef() + 31) * getLevel() / 100 + 5);
-	setSpeed(ceil(2 * getBaseSpeed() + 31) * getLevel() / 100 + 5);
+	setHP(round(ceil(2 * getBaseHP() + 31) * getLevel() / 100 + getLevel() + 10));
+   setAtt(round(ceil(2 * getBaseAtt() + 31) * getLevel() / 100 + 5));
+   setDef(round(ceil(2 * getBaseDef() + 31) * getLevel() / 100 + 5));
+   setSpeed(round(ceil(2 * getBaseSpeed() + 31) * getLevel() / 100 + 5));
 
 	setCurrentHP(getHP());
 	setCurrentAtt(getAtt());

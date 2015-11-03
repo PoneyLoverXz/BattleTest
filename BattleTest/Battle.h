@@ -70,5 +70,8 @@ public:
 	bool ShouldAISwitch(Pokemon *ai);
 	bool AISwitchPokemon(int choice);
 	bool AIDamagingMove();
+   bool isStatMove(Move * pkmn);
+   bool AIStatMove();
+   bool HasStatMove(Pokemon * pkmn);
 };
 

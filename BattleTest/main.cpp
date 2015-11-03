@@ -14,10 +14,11 @@ PokeType assignerType(string type);
 //Variables
 Move Tackle = Move(1, "Tackle", NORMAL, 40, 0, 0, 0, 0, 10, "Pokemon tackles enemy");
 Move RazorLeaf = Move(2, "Razor Leaf", GRASS, 40, 0, 0, 0, 0, 10, "RAZOR LEAF THE SHITSSSS");
-Move SwordDance = Move(3, "Swords Dance", NORMAL, 0, 0, 1.6, 0, 0, 10, "Raises user's attack");
+Move SwordDance = Move(3, "Swords Dance", NORMAL, 0, 0, 1.3, 0, 0, 10, "Raises user's attack");
 Move WaterGun = Move(4, "Water Gun", WATER, 40, 0, 0, 0, 0, 10, "BLOUPBLOUP");
 Move Ember = Move(5, "Ember", FIRE, 40, 0, 0, 0, 0, 10, "FEUUUU");
-Move Recover = Move(6, "Recover", NORMAL, 0, 0.4, 0, 0, 0, 10, "Recovers 40 hp");
+Move Recover = Move(6, "Recover", NORMAL, 0, 0.4, 0, 0, 0, 10, "Recovers 40% hp");
+Move DefenseCurl = Move(7, "Defense Curl", NORMAL, 0, 0, 0, 1.3, 0, 10, "Bouboule");
 string MonsterTxt = "../Monsters.txt";
 ifstream Fichier(MonsterTxt);
 
@@ -35,9 +36,9 @@ int main()
 	Pokemon Charmander;
 	if (Fichier)
 	{
-		Bulbasaur = Pokemon(1, "Bulbasaur", 5, GRASS, 60, 60, 60, 50, 0, "yeah", &Tackle, &RazorLeaf, &Recover);
-		Squirtle = Pokemon(2, "Squirtle", 5, WATER, 70, 50, 70, 51, 0, "yeah", &Tackle, &WaterGun, &Recover);
-		Charmander = Pokemon(3, "Charmander", 5, FIRE, 50, 70, 50, 60, 0, "yeah", &Tackle, &Ember, &Recover);
+		Bulbasaur = Pokemon(1, "Bulbasaur", 5, GRASS, 60, 60, 60, 50, 0, "yeah", &DefenseCurl, &RazorLeaf, &Recover,&SwordDance);
+      Squirtle = Pokemon(2, "Squirtle", 5, WATER, 70, 50, 70, 51, 0, "yeah", &Tackle, &WaterGun, &Recover, &SwordDance);
+      Charmander = Pokemon(3, "Charmander", 5, FIRE, 50, 70, 50, 60, 0, "yeah", &Tackle, &Ember, &Recover, &SwordDance);
 	}
 	else
 	{
@@ -68,7 +69,7 @@ int main()
 	battle.useMove(PlayerPokemon1.getMove1(), &PlayerPokemon1, &AIPokemon1);
 	battle.useMove(PlayerPokemon1.getMove1(), &PlayerPokemon1, &AIPokemon1);
 
-	battle.AITurn();
+	battle.AIStatMove();
 	battle.AITurn();
 	battle.PokemonPlaying = &PlayerPokemon2;
 	battle.AITurn();
